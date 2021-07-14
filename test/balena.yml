@@ -1,0 +1,10 @@
+type: service@1.0.0
+name: a test service
+version: '1.3.18'
+data:
+  $transformer:
+    baseSlug: test-service
+    platforms: # this field means "I want to be built for these"
+      'linux/amd64': {}
+      'linux/arm64': {}
+  fooBar: 42
