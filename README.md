@@ -33,3 +33,8 @@ Here's how to do it:
 	```bash
 	npm start create-transformer ../../source-to-image
 	```
+
+## Other Resources
+
+- [Transformer Runtime](https://github.com/product-os/transformer-runtime)
+- [Transformer Tutorial](https://docs.google.com/document/d/1iPsyXBjnvzG25hNHztIFsUcLDM1gSAIhNTHJDY8pZJ0/)
