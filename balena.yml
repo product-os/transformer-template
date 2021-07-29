@@ -1,6 +1,6 @@
 type: service-source@1.0.0
 name: Transformer template
-version: 1.4.5
+version: 1.4.6
 data:
   platforms:
     linux/amd64: {}
