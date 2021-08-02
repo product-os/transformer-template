@@ -37,17 +37,7 @@ const run = async () => {
 	let outContract: core.ContractDefinition<OutData>;
 
 	// Do some stuff... Put your code here and set the outContract variable
-	if (Object.keys(input.contract.data.platforms || {}).length > 1) {
-		outContract = {
-			slug: 'thisisaslug', // typically this gets overwritten by the worker based on the input
-			type: 'mytype@1.0.0',
-			data: {
-				data: 'hey'
-			},
-		};
-	} else {
-		outContract = input.contract.data.fragment;
-	}
+	outContract = input.contract.data.fragment;
 
 	const result: Result = {
 		results: [

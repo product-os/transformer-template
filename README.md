@@ -43,3 +43,7 @@ TODO:
 
 - [Transformer Runtime](https://github.com/product-os/transformer-runtime)
 - [Transformer Tutorial](https://docs.google.com/document/d/1iPsyXBjnvzG25hNHztIFsUcLDM1gSAIhNTHJDY8pZJ0/)
+
+## _Note_
+
+This transformer assumes it will be run in a DinD (docker-in-docker) environment. If you need Docker in your transformer then follow, otherwise it should be removed.
