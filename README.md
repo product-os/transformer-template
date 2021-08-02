@@ -1,38 +1,43 @@
 # Transformer template
 
-Takes in a `service-source` and creates a Docker image as artifact for the contract specified in `.data.fragment`.
+This is a template repository to copy&paste from, when you create your own Transformer.
 
-Listing multiple platforms under `.data.$transformer.platforms` allows building one image per architecture.
+Remember to rename `balena.template.yml` to `balena.yml` to make your Transformer run.
 
-# Multi-Arch
+If you want to learn more about Transformers, there are
+* [the spec](https://docs.google.com/document/d/1zd3pX9Q_4kXGEnnATNdUmBBRS9R_BZB6JZoKguwX8Vk)
+* [the tutorial](https://docs.google.com/document/d/1iPsyXBjnvzG25hNHztIFsUcLDM1gSAIhNTHJDY8pZJ0) on how to set them up
+* an [entrypoint](https://docs.google.com/document/d/12PCjfMGLq2gkpvGbzNGfVzMM5jRRul-c2vwedPDooWc) document giving more helpful links
 
-> This is WIP and needs improving
+## HOW does a single Transformer run
 
-We need to create multiple instances of this transformer with different parameters, 
-because we want to trigger on the same input once per platform specified and not just once per input.
+A Transformer is a docker image which receives
+* an `INPUT` env var, which points to a JSON file containing an [input manifest](https://github.com/product-os/transformer-runtime/blob/master/lib/types/index.ts#L61)
+  * that manifest contains a [contract](https://github.com/balena-io/balena-io/blob/contracts-spec/specs/contracts.md) and a relative path where a directory with artifacts for this contract can be found
+* an `OUTPUT` env var which points to a path, where the Transformer should write an [output manifest](https://github.com/product-os/transformer-runtime/blob/master/lib/types/index.ts#L71)
+  * that manifest contains a list of contracts and teh relative paths for their artifacts, which the Transformer has produced (if any)
+* volume mounts for the above paths
 
-Currently those values are hard-coded in the `balena.yml` and need to be changed when building for non-amd64 architectures.
-You basically need to change all lines that contain `amd64` except for the list of all supported platforms.
+That's it. The Transformer is (technically) completely free, what it does with its input and how to shape its output.
 
-## Bootstrapping this Transformer
+To make things work in a predictable way, there are some rules (which we might enforce at some point):
+* It must be idempotent. That means, running with the same input should produce the same output. That specifically means it should not depend on some outside state. Practically that means that something predictable like `npm ci` is fine, but querying the current weather is not.
+* The output types must exist. If they don't, the Transformer Worker will not be able to upload the results to Jellyfish
 
-As this Transformer builds other Transformers and it needs secrets while doing so, getting it into the system the first time is a little tricky.
-Here's how to do it:
+## WHEN does a Transformer run
 
-1. execute `npm install` locally to get all dependencies with your npm token
-2. remove/comment-out these lines in the `Dockerfile`
-	```bash
-	RUN --mount=type=secret,id=NPM_TOKEN \
-		echo "//registry.npmjs.org/:_authToken=$(cat /run/secrets/NPM_TOKEN)" > ~/.npmrc && \
-		npm ci && \
-		rm -f ~/.npmrc
-	```
-3. Ensure the version specified in `balena.yml` matches what you expect. (If you have a fresh system, there's no need to change it)
-4. Ensure `.data.$transformer.encryptedSecrets.buildSecrets.NPM_TOKEN` is encrypted for your environment (the checked in value is encrypted for PROD). See the [PKI Readme](https://github.com/product-os/transformer-worker/tree/master/pki) in the Transformer Worker. In its `docker-compose.yml` you'll find the private key for local testing.
-5. Build and upload the Transformer with the [Reflect CLI](https://github.com/balena-io-playground/reflect-cli/):
-	```bash
-	npm start create-transformer ../../source-to-image
-	```
+Transformers are scheduled to run by Jellyfish and run by the Transformer Worker, if
+* they are in JF (i.e. the first PR in its repo has passed successfully the Transformer CI)
+* they are owned by a loop. You can see and change that in the "All Transformers" view in JF. (In the future this will be replaced by Loop admins "installing" Transformers into their loops). The loop will be the creator of all contracts created by this Transformer
+* their `inputFilter` in their contract (see `balena.yml`), which is a JSON schema, matches a new or changed contract in the system. Transformers don't run against previously existing things
+
+## How can I COMPOSE Transformers
+
+When the output of Transformer A matches the input filter of Transformer B they will automatically run in succession.
+
+TODO:
+* describe how to update the input contracts
+* describe how that can be used with `composedOf`, once we implement support for it
 
 ## Other Resources
 
