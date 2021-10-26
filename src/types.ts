@@ -1,12 +1,12 @@
 import { core } from '@balena/jellyfish-types';
 
 type InData = {
-	fragment: core.ContractDefinition<any>;
-	platforms?: string[];
+	// everything in here should be part of the input filter or the input type's schema
+	someProperty: string;
 };
 
 export interface OutData {
-	data: any;
+	someResultProperty: number;
 }
 
 interface TransformerData {

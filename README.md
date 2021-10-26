@@ -12,15 +12,15 @@ If you want to learn more about Transformers, there are
 ## HOW does a single Transformer run
 
 A Transformer is a docker image which receives
-* an `INPUT` env var, which points to a JSON file containing an [input manifest](https://github.com/product-os/transformer-runtime/blob/master/lib/types/index.ts#L61)
+* an `INPUT` env var, which points to a JSON file containing an [input manifest](https://github.com/product-os/transformer-runtime/blob/master/lib/types/index.ts)
   * that manifest contains a [contract](https://github.com/balena-io/balena-io/blob/contracts-spec/specs/contracts.md) and a relative path where a directory with artifacts for this contract can be found
-* an `OUTPUT` env var which points to a path, where the Transformer should write an [output manifest](https://github.com/product-os/transformer-runtime/blob/master/lib/types/index.ts#L71)
+* an `OUTPUT` env var which points to a path, where the Transformer should write an [output manifest](https://github.com/product-os/transformer-runtime/blob/master/lib/types/index.ts)
   * that manifest contains a list of contracts and teh relative paths for their artifacts, which the Transformer has produced (if any)
 * volume mounts for the above paths
 
-That's it. The Transformer is (technically) completely free, what it does with its input and how to shape its output.
+That's it. The Transformer is (technically) completely free what it does with its input and how to shape its output.
 
-To make things work in a predictable way, there are some rules (which we might enforce at some point):
+To make things work in a predictable way, there are some rules (which we will enforce eventually):
 * It must be idempotent. That means, running with the same input should produce the same output. That specifically means it should not depend on some outside state. Practically that means that something predictable like `npm ci` is fine, but querying the current weather is not.
 * The output types must exist. If they don't, the Transformer Worker will not be able to upload the results to Jellyfish
 
@@ -43,7 +43,3 @@ TODO:
 
 - [Transformer Runtime](https://github.com/product-os/transformer-runtime)
 - [Transformer Tutorial](https://docs.google.com/document/d/1iPsyXBjnvzG25hNHztIFsUcLDM1gSAIhNTHJDY8pZJ0/)
-
-## _Note_
-
-This transformer assumes it will be run in a DinD (docker-in-docker) environment. If you need Docker in your transformer then follow, otherwise it should be removed.
