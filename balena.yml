@@ -34,7 +34,7 @@ data:
             # this runs your transformer on all instances of the same major version of the input type
             pattern: type-my-input-type@1.*   # 👈 change this
           version:
-            # only run on draft versions (aka pre-releases)
+            # only run on draft versions (aka pre-releases). You probably don't want to change this
             pattern: ^[^+]*-
           data:                                # 👈 change this (or reove it completely if a match on the type is enough)
             type: object
