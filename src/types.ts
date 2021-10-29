@@ -34,7 +34,7 @@ export type Input = {
 
 export type Result = {
 	results: Array<{
-		contract: core.ContractDefinition<OutData>;
+		contract: Omit<core.ContractDefinition<OutData>, 'slug'>;
 		artifactPath?: string; // relative to the results file
 		imagePath?: string; // relative to the results file
 	}>;
