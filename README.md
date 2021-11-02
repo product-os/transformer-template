@@ -18,7 +18,24 @@ A Transformer is a docker image which receives
   * that manifest contains a list of contracts and teh relative paths for their artifacts, which the Transformer has produced (if any)
 * volume mounts for the above paths
 
-That's it. The Transformer is (technically) completely free what it does with its input and how to shape its output.
+That's it. The Transformer is (technically) completely free what it does with its input and how to shape its output, but the output manifest must reflect this shape. E.g. when this is your ourput
+```
+# $OUTPUT=/tf-out/manifest.json
+/opt/transformers/out/
+\ - manifest.json
+  - myresults
+  \ - file1.txt
+    - file2.tar
+```
+Then your manifest should look like this: (or as json)
+```yaml
+results:
+- contract: { ... }
+  artifactPath: ./myresults # as this must be relative to the manifest's location
+```
+It's always a good idea to place your results in a sub-directory to ensure you don't add the manifest into the artifacts as well
+
+## Rules for Transformers
 
 To make things work in a predictable way, there are some rules (which we will enforce eventually):
 * It must be idempotent. That means, running with the same input should produce the same output. That specifically means it should not depend on some outside state. Practically that means that something predictable like `npm ci` is fine, but querying the current weather is not.
