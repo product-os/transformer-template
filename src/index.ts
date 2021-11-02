@@ -1,65 +1,31 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import * as YAML from 'yaml';
-import { core } from '@balena/jellyfish-types';
 import * as _ from 'lodash';
 
-import { Input, OutData, Result } from './types';
+import { outputDir, readInput, writeOutput } from './transformer';
 
 console.log('Template Transformer starting');
 
-const getEnvOrFail = (envVar: string) => {
-	const env = process.env[envVar];
-	if (!env) {
-		console.log(`required env var ${envVar} was not set`);
-		process.exit(1);
-	}
-	return env;
-};
-
-// worker exposes this
-const outputPath = getEnvOrFail('OUTPUT');
-const inputPath = getEnvOrFail('INPUT');
-
-const inDir = path.dirname(inputPath);
-const outDir = path.dirname(outputPath);
-
-const outArtifactPath = path.join(outDir, 'result-artifacts');
-fs.mkdirSync(outArtifactPath, { recursive: true });
-
 const run = async () => {
-	const input = (await readInput(inputPath)).input;
+	const input = await readInput();
+	console.log('input:', input.contract);
+	console.log('input directory:', input.artifactPath);
+	console.log('input directory:', outputDir);
 
-	console.log('input:', input);
-
-	let outContract: core.ContractDefinition<OutData>;
-
-	// TODO Do some stuff... Put your code here and set the outContract variable to a contract
-	outContract = {
+	// TODO your code goes here. You can
+	// - inspect the input contract
+	// - process the artifact that you can find in the artifactPath
+	//   - note that the input folder is read-only!
+	// - produce some new artifact and place it in `outputDir`
+	const outContract = {
 		type: 'type-my-out-type@1.2.3',
 		data: {
-			someResultProperty: 1
-		}
+			someResultProperty: 1,
+		},
 	};
 
-	const result: Result = {
-		results: [
-			{
-				contract: outContract,
-				imagePath: path.relative(outDir, outArtifactPath),
-			},
-		],
-	};
-	console.log('result:', result);
-	await fs.promises.writeFile(outputPath, JSON.stringify(result));
+	await writeOutput(outContract, 'artifact');
 };
 
-const readInput = async (filePath: string) => {
-	return YAML.parse((await fs.promises.readFile(filePath)).toString()) as Input;
-};
-
-
-run().catch(err => {
-	console.log("ERROR IN TRANSFORMER", err);
+run().catch((err) => {
+	console.log('ERROR IN TRANSFORMER', err);
 	process.exit(1);
 });
