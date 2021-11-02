@@ -20,8 +20,13 @@ const inputManifestPath = getEnvOrFail('INPUT');
 const inputDir = path.dirname(inputManifestPath);
 const outDir = path.dirname(outputManifestPath);
 
-export const outputDir = path.join(outDir, 'result-artifacts');
-fs.mkdirSync(outputDir, { recursive: true });
+let outputs = 0;
+export const createOutputDir = async () => {
+	outputs++;
+	const outputDir = path.join(outDir, `result-artifacts${outputs}`);
+	await fs.promises.mkdir(outputDir, { recursive: true });
+	return outputDir;
+};
 
 export const readInput = async () => {
 	const inManifest: Input = YAML.parse(
@@ -35,33 +40,35 @@ export const readInput = async () => {
 	return inManifest.input;
 };
 
-export const writeOutput = async (
-	outContract: Omit<core.ContractDefinition<OutData>, 'slug'>,
-	artifactType: 'artifact' | 'image' | 'none',
+export const writeOutputs = async (
+	results: Array<{
+		contract: Omit<core.ContractDefinition<OutData>, 'slug'>;
+		artifactType: 'artifact' | 'image' | 'none';
+		path: string;
+	}>,
 ) => {
-	let artifact: any;
-	switch (artifactType) {
-		case 'artifact':
-			artifact = { artifactPath: path.relative(outDir, outputDir) };
-			break;
-		case 'image':
-			artifact = {
-				imagePath: path.relative(outDir, path.join(outputDir, 'image.tar')),
-			};
-			break;
-		default:
-			console.log('no artifact produced');
-			artifact = {};
-			break;
-	}
 	const result: Result = {
-		results: [
-			{
-				contract: outContract,
-				...artifact,
-			},
-		],
+		results: results.map((r) => ({
+			contract: r.contract,
+			...mapArtifact(r.artifactType, r.path),
+		})),
 	};
 	console.log('result:', result);
 	await fs.promises.writeFile(outputManifestPath, JSON.stringify(result));
+};
+
+const mapArtifact = (artifactType: string, outputDir: string) => {
+	switch (artifactType) {
+		case 'artifact':
+			return {
+				artifactPath: path.relative(outDir, outputDir),
+			};
+		case 'image':
+			return {
+				imagePath: path.relative(outDir, path.join(outputDir, 'image.tar')),
+			};
+		default:
+			console.log('no artifact produced for', outputDir);
+			return {};
+	}
 };

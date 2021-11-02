@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 
-import { outputDir, readInput, writeOutput } from './transformer';
+import { createOutputDir, readInput, writeOutputs } from './transformer';
 
 console.log('Template Transformer starting');
 
@@ -8,7 +8,8 @@ const run = async () => {
 	const input = await readInput();
 	console.log('input:', input.contract);
 	console.log('input directory:', input.artifactPath);
-	console.log('input directory:', outputDir);
+	const outputDir = await createOutputDir();
+	console.log('output directory:', outputDir);
 
 	// TODO your code goes here. You can
 	// - inspect the input contract
@@ -22,7 +23,9 @@ const run = async () => {
 		},
 	};
 
-	await writeOutput(outContract, 'artifact');
+	await writeOutputs([
+		{ contract: outContract, artifactType: 'artifact', path: outputDir },
+	]);
 };
 
 run().catch((err) => {
