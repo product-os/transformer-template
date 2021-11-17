@@ -1,5 +1,4 @@
-# syntax=docker/dockerfile:1.2
-FROM nodejs:14
+FROM nodejs:16
 
 WORKDIR /usr/src/transformer
 
@@ -8,10 +7,13 @@ ENV OUTPUT=
 
 # improve docker caching by adding these two separately
 COPY package.json package-lock.json ./
-RUN --mount=type=secret,id=NPM_TOKEN \
-	echo "//registry.npmjs.org/:_authToken=$(cat /run/secrets/NPM_TOKEN)" > ~/.npmrc && \
-	npm ci && \
-	rm -f ~/.npmrc
+RUN npm ci
+
+# use the below version if you un-commented the token secret in the balena.yml
+#RUN --mount=type=secret,id=NPM_TOKEN \
+#	echo "//registry.npmjs.org/:_authToken=$(cat /run/secrets/NPM_TOKEN)" > ~/.npmrc && \
+#	npm ci && \
+#	rm -f ~/.npmrc
 
 COPY . ./
 RUN npm run build
