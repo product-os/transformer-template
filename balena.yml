@@ -9,8 +9,7 @@ data:
   platforms:
     linux/amd64: {}
 
-  # ⚠️ uncomment this 👇 line to enable your repo to be picked up by transformers
-  # $transformer: {}
+  $transformer: {}
     # the below is needed, if you're using private packages
     #encryptedSecrets:
     #  buildSecrets:
