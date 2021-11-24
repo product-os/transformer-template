@@ -2,7 +2,7 @@
 
 This is a template repository to copy&paste from, when you create your own Transformer.
 
-Remember to rename `balena.template.yml` to `balena.yml` to make your Transformer run.
+To create a new repo from this template [click here](https://github.com/organizations/product-os/repositories/new). (For some reason templates only show up when clicking "new repo" within the same org although they can then be used to create a repo in any org you have access to...)
 
 If you want to learn more about Transformers, there are
 * [the spec](https://docs.google.com/document/d/1zd3pX9Q_4kXGEnnATNdUmBBRS9R_BZB6JZoKguwX8Vk)
