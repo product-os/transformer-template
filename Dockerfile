@@ -1,4 +1,4 @@
-FROM nodejs:16
+FROM node:16
 
 WORKDIR /usr/src/transformer
 
