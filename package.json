@@ -3,7 +3,7 @@
   "version": "1.0.2",
   "description": "",
   "private": true,
-  "main": "dist/index.js",
+  "main": "build/index.js",
   "devDependencies": {
     "@balena/jellyfish-types": "^0.5.59",
     "@balena/lint": "^6.1.1",
