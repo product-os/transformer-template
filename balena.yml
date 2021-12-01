@@ -42,4 +42,4 @@ data:
             properties:
               someProperty:
                 type: string
-slug: service-source-product-os-transformer-template
+slug: type-product-os-t-service-source-product-os-transformer-template
