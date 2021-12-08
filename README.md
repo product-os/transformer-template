@@ -1,6 +1,6 @@
 # Transformer template
 
-This is a template repository to copy&paste from, when you create your own Transformer.
+This is a template repository to create your own Transformer.
 
 If you want to learn more about Transformers, there are
 * [the spec](https://docs.google.com/document/d/1zd3pX9Q_4kXGEnnATNdUmBBRS9R_BZB6JZoKguwX8Vk)
