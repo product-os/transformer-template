@@ -1,8 +1,7 @@
-import { core } from '@balena/jellyfish-types';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as YAML from 'yaml';
-import { Input, OutData, Result } from './types';
+import { Input, OutputContract, Result } from './types';
 
 const getEnvOrFail = (envVar: string) => {
 	const env = process.env[envVar];
@@ -42,7 +41,7 @@ export const readInput = async () => {
 
 export const writeOutputs = async (
 	results: Array<{
-		contract: Omit<core.ContractDefinition<OutData>, 'slug'>;
+		contract: OutputContract;
 		artifactType: 'artifact' | 'image' | 'none';
 		path: string;
 	}>,
