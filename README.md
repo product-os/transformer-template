@@ -1,6 +1,9 @@
 # Transformer template
 
-This is a template repository to create your own Transformer.
+This is a template repository to copy&paste from, when you create your own Transformer.
+
+⚠️ After using this template you must create a PR in your new repo to get the type into the system. 
+The version of your Transformer will start with `0.x.y` unless your first PR will have a `Change-type: major` footer.
 
 If you want to learn more about Transformers, there are
 * [the spec](https://docs.google.com/document/d/1zd3pX9Q_4kXGEnnATNdUmBBRS9R_BZB6JZoKguwX8Vk)

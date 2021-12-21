@@ -1,9 +1,9 @@
 {
   "name": "transformer-template",
-  "version": "0.1.2",
+  "version": "0.99.1",
   "description": "",
   "private": true,
-  "main": "build/index.js",
+  "main": "dist/index.js",
   "devDependencies": {
     "@balena/jellyfish-types": "^0.5.59",
     "@balena/lint": "^6.1.1",
@@ -15,8 +15,5 @@
     "build": "tsc",
     "lint-fix": "balena-lint --fix src"
   },
-  "license": "UNLICENSED",
-  "versionist": {
-    "publishedAt": "2021-12-17T10:44:42.450Z"
-  }
+  "license": "UNLICENSED"
 }
