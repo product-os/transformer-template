@@ -1,6 +1,6 @@
 {
   "name": "transformer-template",
-  "version": "0.99.2",
+  "version": "0.99.3",
   "description": "",
   "private": true,
   "main": "dist/index.js",
@@ -17,6 +17,6 @@
   },
   "license": "UNLICENSED",
   "versionist": {
-    "publishedAt": "2021-12-21T15:58:48.695Z"
+    "publishedAt": "2021-12-21T16:55:41.439Z"
   }
 }
