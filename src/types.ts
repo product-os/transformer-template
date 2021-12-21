@@ -1,40 +1,42 @@
 import { core } from '@balena/jellyfish-types';
 
-type InData = {
-	// everything in here should be part of the input filter or the input type's schema
-	someProperty: string;
-};
+interface ContractDefinition<T>
+	extends Omit<core.ContractDefinition<T>, 'slug'> {}
 
-export interface OutData {
-	someResultProperty: number;
-}
+export interface InputContract
+	extends core.Contract<{
+		// everything in here should be part of the input filter or the input type's schema
+		someProperty: string;
+	}> {}
 
-interface TransformerData {
-	targetPlatform?: string;
-}
+export interface OutputContract
+	extends ContractDefinition<{
+		someResultProperty: number;
+	}> {}
+
+export interface TransformerContract
+	extends core.Contract<{
+		targetPlatform?: string;
+	}> {}
 
 // a general form of this would make sense in a "Transformers SDK"
 export type Input = {
 	input: {
-		contract: core.Contract<InData>;
-		transformerContract: core.Contract<TransformerData>;
+		contract: InputContract;
+		transformerContract: TransformerContract;
 		artifactPath: string; // relative to the input file
 		decryptedSecrets?: {
-			buildSecrets?: {
-				[key: string]: string;
-			};
+			[key: string]: string;
 		};
 		decryptedTransformerSecrets?: {
-			buildSecrets?: {
-				[key: string]: string;
-			};
+			[key: string]: string;
 		};
 	};
 };
 
 export type Result = {
 	results: Array<{
-		contract: Omit<core.ContractDefinition<OutData>, 'slug'>;
+		contract: OutputContract;
 		artifactPath?: string; // relative to the results file
 		imagePath?: string; // relative to the results file
 	}>;

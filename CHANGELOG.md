@@ -4,4 +4,11 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### 0.99.1 (2021-07-29)
 
+# v0.99.2
+## (2021-12-21)
+
+* cleanup accidential changes [Martin Rauscher]
+* enable transformers by default [Martin Rauscher]
+* make input/output clearer in types [Martin Rauscher]
+
 Initial version
