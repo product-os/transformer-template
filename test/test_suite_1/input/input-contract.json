@@ -1,0 +1,19 @@
+{
+  "type": "type-product-os-t-service-source@1.0.1",
+  "version": "1.0.12",
+  "name": "a test service",
+  "data": {
+     "$transformer": {
+        "dummy": 1
+     },
+     "platforms": {
+        "linux/amd64": {}
+     },
+     "fragment": {
+        "type": "service@1.0.0",
+        "data": {
+           "fooBar": 43
+        }
+     }
+  }
+}
