@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### 0.99.1 (2021-07-29)
 
+# v0.99.4
+## (2022-01-31)
+
+* add test files [Dan Goodman]
+
 # v0.99.3
 ## (2021-12-21)
 
