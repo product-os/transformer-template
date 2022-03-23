@@ -19,18 +19,20 @@ export interface TransformerContract
 		targetPlatform?: string;
 	}> {}
 
+export type InputManifest = {
+	input: Input;
+}
+
 // a general form of this would make sense in a "Transformers SDK"
 export type Input = {
-	input: {
-		contract: InputContract;
-		transformerContract: TransformerContract;
-		artifactPath: string; // relative to the input file
-		decryptedSecrets?: {
-			[key: string]: string;
-		};
-		decryptedTransformerSecrets?: {
-			[key: string]: string;
-		};
+	contract: InputContract;
+	transformerContract: TransformerContract;
+	artifactPath: string; // relative to the input file
+	decryptedSecrets?: {
+		[key: string]: string;
+	};
+	decryptedTransformerSecrets?: {
+		[key: string]: string;
 	};
 };
 
