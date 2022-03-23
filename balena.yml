@@ -2,7 +2,7 @@
 # in the future that will be simplified
 type: service-source@1.0.0
 name: Transformer template # 👈 change this
-version: 0.99.4
+version: 0.99.5
 data:
 
   # this line enables your repo to be picked up by transformers

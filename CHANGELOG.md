@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### 0.99.1 (2021-07-29)
 
+# v0.99.5
+## (2022-03-23)
+
+* Add an additional type to raise the nested input. [Carlo Miguel F. Cruz]
+
 # v0.99.4
 ## (2022-01-31)
 

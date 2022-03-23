@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as YAML from 'yaml';
-import { Input, OutputContract, Result } from './types';
+import { Input, InputManifest, OutputContract, Result } from './types';
 
 const getEnvOrFail = (envVar: string) => {
 	const env = process.env[envVar];
@@ -27,8 +27,8 @@ export const createOutputDir = async () => {
 	return outputDir;
 };
 
-export const readInput = async () => {
-	const inManifest: Input = YAML.parse(
+export const readInput: Promise<Input> = async () => {
+	const inManifest: InputManifest = YAML.parse(
 		(await fs.promises.readFile(inputManifestPath)).toString(),
 	);
 	// make path absolute to make handling for users easier
